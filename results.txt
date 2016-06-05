@@ -1,0 +1,22 @@
+k, algorithm, test_size
+5, 'brute', 0.3
+
+true positive:182
+false positive:272
+false negative:666
+
+5, 'brute', 0.3
+true positive:182
+false positive:272
+false negative:666
+
+5, 'auto', 0.3
+true positive:168
+false positive:232
+false negative:680
+
+
+5, 'auto', 0.3, slim
+true positive:168
+false positive:232
+false negative:680

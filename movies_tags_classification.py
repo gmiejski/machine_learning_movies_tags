@@ -22,16 +22,22 @@ m3c = [1, 1, 0, 1]
 
 
 def mydist(x, y, **kwargs):
-    result = spatial.distance.cosine(x, y)
+    slim_x = []
+    slim_y = []
+    for xx, yy in zip(x,y):
+        if xx != 0 or yy != 0:
+            slim_x.append(xx)
+            slim_y.append(yy)
+
+    result =  spatial.distance.cosine(slim_x, slim_y)
     # print(result)
     return result
-    # return np.sum((x - y) ** kwargs["metric_params"]["power"])
 
 
-knn = KNeighborsClassifier(n_neighbors=2, metric=mydist)
-knn.fit(training, [m1c, m2c, m3c])
+# knn = KNeighborsClassifier(n_neighbors=2, metric=mydist)
+# knn.fit(training, [m1c, m2c, m3c])
 
-print(knn.predict(test))
+# print(knn.predict(test))
 
 
 def parseMoviesFile():
@@ -96,7 +102,8 @@ if __name__ == "__main__":
     m_train, m_test = cross_validation.train_test_split(movies_ratings.items(), test_size=0.3, random_state=0)
     train_genres = get_train_genres(m_train, movies)
 
-    knn = KNeighborsClassifier(n_neighbors=5, metric=mydist)
+    knn = KNeighborsClassifier(n_neighbors=5, metric=mydist, algorithm='brute')
+    # knn = KNeighborsClassifier(n_neighbors=5, metric=mydist)
     knn.fit(map(lambda x: x[1], m_train), train_genres)
 
     predicted_genres = knn.predict(map(lambda x: x[1], m_test))
